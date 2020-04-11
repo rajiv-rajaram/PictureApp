@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { SliderBox } from "react-native-image-slider-box";
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import ImageSlider from "react-native-image-slider";
 
 export default class PictureApp extends Component {
-  //const mrMenImgages;
   constructor() {
     super()
     this.state = {
-      titleText: 'Find the name of the book',
+      question: 'Guess the book name',
+      titleText: 'Guess the book name',
       slidingImages: [
         require('./assets/nosey.png'),
         require('./assets/Cinderella.png'),
@@ -32,25 +32,29 @@ export default class PictureApp extends Component {
   }
   render() {
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{height: 200, backgroundColor: 'pink', justifyContent: 'center'}}>
+      <SafeAreaView style={{flex: 1, flexDirection: 'column', backgroundColor: 'white'}}>
+        <View style={{height: 150, backgroundColor: 'pink', justifyContent: 'center'}}>
           <Text style={{padding: 10, fontSize: 42, textAlign: 'center'}}>{this.state.titleText}</Text>
         </View>
-        <View style={styles.container}>
-          <SliderBox 
+        <ImageSlider
           images={this.state.slidingImages}
-          sliderBoxHeight={400} 
-          dotColor="#FFEE58"
-          inactiveDotColor="#90A4AE" 
-          onCurrentImagePressed={index =>
-            this.setState({
-              titleText: this.state.bookTitle[index]      
-          })}
-          />
+          onPress={ ({ image, index }) =>
+                  this.setState({
+                    titleText: this.state.bookTitle[index]    
+                })}
+          onPositionChanged={ index => 
+                  this.setState({
+                          titleText: this.state.question
+                })
+              }
+        />
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>yes and no buttons</Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
+  
 }
 
 const styles = StyleSheet.create({

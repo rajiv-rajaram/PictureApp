@@ -21,6 +21,7 @@ const allBooks = [
   { image: require('./assets/jack.png'), title:  'Jack and the Beans stock' }
 ];
 
+
 export default class PictureApp extends Component {
   constructor() {
     super()
@@ -30,7 +31,8 @@ export default class PictureApp extends Component {
       titleText: 'Guess the book name',
       books: allBooks,
       index: 0,
-      modalVisible: false
+      modalVisible: false,
+      score: 0
     }
   }
   render() {
@@ -57,7 +59,10 @@ export default class PictureApp extends Component {
                   style={{ ...styles.modalButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
                     this.setState({
-                      modalVisible: false
+                      score: this.state.score + 1,
+                      index: this.state.index + 1,
+                      modalVisible: false,
+                      titleText: this.state.question
                     })
                   }}
                 >
@@ -69,7 +74,9 @@ export default class PictureApp extends Component {
                   style={{ ...styles.modalButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
                     this.setState({
-                      modalVisible: false
+                      index: this.state.index + 1,
+                      modalVisible: false,
+                      titleText: this.state.question
                     })
                   }}
                 >

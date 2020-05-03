@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
-//import ImageSlider from "react-native-image-slider";
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  SafeAreaView, 
+  TouchableOpacity, 
+  TouchableHighlight,
+  Image,
+  Modal 
+} from 'react-native';
 
 const allBooks = [
   { image: require('./assets/nosey.png'), title: 'Mr Nosey' },
@@ -21,41 +29,71 @@ export default class PictureApp extends Component {
       question: 'Guess the book name',
       titleText: 'Guess the book name',
       books: allBooks,
-      index: 0
+      index: 0,
+      modalVisible: false
     }
   }
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
-        <View style={{ height: 150, backgroundColor: 'pink', justifyContent: 'center' }}>
-          <Text style={{ padding: 10, fontSize: 42, textAlign: 'center' }}>{ this.state.titleText }</Text>
+      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{flex: 2, backgroundColor: 'pink', justifyContent: 'center'}}>
+          <Text style={styles.titleText}>{this.state.titleText}</Text>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{flex: 7, flexDirection: 'row', justifyContent: 'center'}}>
           <Image
-            source ={ this.state.books[this.state.index].image }
+            source ={this.state.books[this.state.index].image}
           />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+            }}
+          >
+            <View style={styles.modalCenteredView}>
+              <View style={styles.modalView}>
+                <TouchableHighlight
+                  style={{ ...styles.modalButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    this.setState({
+                      modalVisible: false
+                    })
+                  }}
+                >
+                  <Text style={styles.modalTextStyle}>Correct</Text>
+                </TouchableHighlight>
+              </View>
+              <View style={styles.modalView}>
+                <TouchableHighlight
+                  style={{ ...styles.modalButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    this.setState({
+                      modalVisible: false
+                    })
+                  }}
+                >
+                  <Text style={styles.modalTextStyle}>Wrong</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
         </View>
-        {/* <ImageSlider
-          images={ this.getImages(this.state.books) }
-          style={ styles.imageContainer }
-          onPress={ ({ image, index }) =>
-                  this.setState({
-                    titleText: this.state.books[index].title    
-                })}
-          onPositionChanged={ index => 
-                  this.setState({
-                          titleText: this.state.question
+        <View style={{flex: 1, backgroundColor: 'pink', justifyContent: "center"}}> 
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              {
+                this.setState({
+                  titleText: this.state.books[this.state.index].title,  
+                  modalVisible: true
                 })
               }
-        /> */}
-        <Button
-          color = 'pink'
-          onPress={ () =>
-            this.setState({
-              titleText: this.state.books[this.state.index].title    
-          })}
-          title ="Answer"
-        />
+            }
+          >
+            <Text style={styles.titleText}>Answer</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   }
@@ -79,12 +117,47 @@ export default class PictureApp extends Component {
 
 const styles = StyleSheet.create({
   image: {
-    resizeMode: 'contain'
-    // width: 66,
-    // height: 58,
+    resizeMode: 'stretch'
   },
-  // buttonContainer: { 
-  //   height: 150, 
-  //   justifyContent: 'center' 
-  // }
+  button: {
+    flex: 1,
+    alignItems: "center"
+  },
+  titleText: {
+    padding: 10, 
+    fontSize: 42, 
+    textAlign: 'center'
+  },
+  modalCenteredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  modalTextStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  }
 });

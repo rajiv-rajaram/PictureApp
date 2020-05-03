@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import ImageSlider from "react-native-image-slider";
+import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
+//import ImageSlider from "react-native-image-slider";
 
 const allBooks = [
   { image: require('./assets/nosey.png'), title: 'Mr Nosey' },
-  { image: require('./assets/Cinderella.png'), title: 'Cinderella'},
-  { image: require('./assets/strong.png'), title: 'Mr Strong'},
-  { image: require('./assets/tickles.png'),title: 'Mr Tickles'},
-  { image: require('./assets/gruffalo.png'),title: 'Gruffalo'},
-  { image: require('./assets/goldilocks.png'),title: 'Goldilocks and the Three Bears'},
-  { image: require('./assets/redridinghood.png'),title: 'Red Ridinghood'},
-  { image: require('./assets/jack.png'),title:  'Jack and the Beans stock'}
+  { image: require('./assets/Cinderella.png'), title: 'Cinderella' },
+  { image: require('./assets/strong.png'), title: 'Mr Strong' },
+  { image: require('./assets/tickles.png'), title: 'Mr Tickles' },
+  { image: require('./assets/gruffalo.png'), title: 'Gruffalo' },
+  { image: require('./assets/goldilocks.png'), title: 'Goldilocks and the Three Bears' },
+  { image: require('./assets/redridinghood.png'), title: 'Red Ridinghood' },
+  { image: require('./assets/jack.png'), title:  'Jack and the Beans stock' }
 ];
 
 export default class PictureApp extends Component {
@@ -21,17 +21,23 @@ export default class PictureApp extends Component {
       question: 'Guess the book name',
       titleText: 'Guess the book name',
       books: allBooks,
+      index: 0
     }
   }
   render() {
     return (
-      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{height: 150, backgroundColor: 'pink', justifyContent: 'center'}}>
-          <Text style={{padding: 10, fontSize: 42, textAlign: 'center'}}>{this.state.titleText}</Text>
+      <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ height: 150, backgroundColor: 'pink', justifyContent: 'center' }}>
+          <Text style={{ padding: 10, fontSize: 42, textAlign: 'center' }}>{ this.state.titleText }</Text>
         </View>
-        <ImageSlider
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Image
+            source ={ this.state.books[this.state.index].image }
+          />
+        </View>
+        {/* <ImageSlider
           images={ this.getImages(this.state.books) }
-          style={styles.container}
+          style={ styles.imageContainer }
           onPress={ ({ image, index }) =>
                   this.setState({
                     titleText: this.state.books[index].title    
@@ -41,10 +47,15 @@ export default class PictureApp extends Component {
                           titleText: this.state.question
                 })
               }
+        /> */}
+        <Button
+          color = 'pink'
+          onPress={ () =>
+            this.setState({
+              titleText: this.state.books[this.state.index].title    
+          })}
+          title ="Answer"
         />
-        <View style={styles.content2}>
-          <Text style={styles.contentText}>yes and no buttons</Text>
-        </View>
       </SafeAreaView>
     );
   }
@@ -67,7 +78,13 @@ export default class PictureApp extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white'
+  image: {
+    resizeMode: 'contain'
+    // width: 66,
+    // height: 58,
   },
+  // buttonContainer: { 
+  //   height: 150, 
+  //   justifyContent: 'center' 
+  // }
 });
